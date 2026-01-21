@@ -43,6 +43,9 @@ public class Mixer : MonoBehaviour
     // UnityEvent that is invoked when another collider exits the trigger.
     public UnityEvent onTriggerExitEvent;
 
+
+    [SerializeField] Transform potionSpawnTransform;
+
     // This method is called when another collider enters the trigger collider
     // attached to the GameObject to which this script is attached.
     // 'other' represents the Collider that enters the trigger.
@@ -75,20 +78,40 @@ public class Mixer : MonoBehaviour
             Array.Sort(charX);
             ingredientTag = new string(charX).ToLower();
         }
-
-
-        switch (ingredientTag)
+        if (ingredientTag != "")
         {
-            case("ab"):
-                Debug.Log("dis is AB");
-                break;
-            case ("bc"):
-                Debug.Log("Dis is BC");
-                break;
-            case ("ac"):
-                Debug.Log("Dis is AC");
-                break;
+            switch (ingredientTag)
+            {
+                case ("ab"):
+                    Debug.Log("dis is AB");
+                    ingredientTag = "";
+                    //should change what is spawned
+                    Instantiate(Potion, potionSpawnTransform.position, Quaternion.identity);
+                    break;
+                case ("bc"):
+                    Debug.Log("Dis is BC");
+                    ingredientTag = "";
+                    //should change what is spawned
+                    Instantiate(Potion, potionSpawnTransform.position, Quaternion.identity);
+                    break;
+                case ("ac"):
+                    Debug.Log("Dis is AC");
+                    ingredientTag = "";
+                    //should change what is spawned
+                    Instantiate(Potion, potionSpawnTransform.position, Quaternion.identity);
+                    break;
+            }
+
+            //Disables the collider so it doesnt register it more than once if it bounces out then in again
+            //Destroys it 5 seconds being in the couldron
+            other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+            Destroy(other.gameObject, 3f);
         }
+        
+
+        
+
+
     }
 
     // This method is called when another collider stays on the trigger collider
