@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -25,15 +25,18 @@ public class Mixer : MonoBehaviour
 
     [Space(10)]
     */
-    public MeshRenderer MeshRenderer;
-    public int currentColour;
-    public MatShift Potion;
     public string bottleTag;
-    public string wandTag;
-    public string ingredientTag;
+    public string combination;
     public List<string> ingredients;
-    public Vector3 Rotation = new Vector3(0,0,10);
-    public string combination="";
+
+    [SerializeField] List<GameObject> potions = new List<GameObject>();
+    
+    
+    [SerializeField] Transform potionSpawnTransform;
+    [SerializeField] ParticleSystem potionSpawnParticles;
+    [SerializeField] List<ParticleSystem> fruitUsedParticles = new List<ParticleSystem>();
+    
+    
     // UnityEvent that is invoked when another collider enters the trigger.
     public UnityEvent onTriggerEnterEvent;
 
@@ -44,61 +47,68 @@ public class Mixer : MonoBehaviour
     public UnityEvent onTriggerExitEvent;
 
 
-    [SerializeField] Transform potionSpawnTransform;
 
     // This method is called when another collider enters the trigger collider
     // attached to the GameObject to which this script is attached.
     // 'other' represents the Collider that enters the trigger.
     private void Start()
     {
-        MeshRenderer = GetComponent<MeshRenderer>();
+       
     }
     void OnTriggerEnter(Collider other)
     {
         // Checks if the script is enabled to perform detection, otherwise exit
         if (!enabled) return;
+        int randomEffect = UnityEngine.Random.Range(0, 2);
+        fruitUsedParticles[randomEffect].Play();
+
+        
 
         //Some more advanced features you can enable if you need a layer or tag filter.
         //if ((layerMask.value & (1 << other.gameObject.layer)) == 0) return;
         //if (!string.IsNullOrEmpty(tagFilter) && !other.gameObject.CompareTag(tagFilter)) return;
 
         // Invoke the onTriggerEnterEvent when a collider enters the trigger.
-        if(other.tag == bottleTag)
+        if (other.tag == bottleTag)
         {
-            Potion.MatChange(currentColour);
+            //Potion.MatChange(currentColour);
         
         }
 
         else if (ingredients.Contains(other.tag))
         {
-            ingredientTag += other.tag;
+            combination += other.tag;
 
-            char[] charX = ingredientTag.ToCharArray();
+            char[] charX = combination.ToCharArray();
 
             Array.Sort(charX);
-            ingredientTag = new string(charX).ToLower();
+            combination = new string(charX).ToLower();
         }
-        if (ingredientTag != "")
+        if (combination != "")
         {
-            switch (ingredientTag)
+            Vector3 spawnImpulse = new Vector3(UnityEngine.Random.Range(0.2f, 0.5f), UnityEngine.Random.Range(4.5f, 7.5f), UnityEngine.Random.Range(0.2f, 0.5f));
+            switch (combination)
             {
                 case ("ab"):
                     Debug.Log("dis is AB");
-                    ingredientTag = "";
-                    //should change what is spawned
-                    Instantiate(Potion, potionSpawnTransform.position, Quaternion.identity);
+                    combination = "";
+                    potionSpawnParticles.Play();
+                    GameObject potion = Instantiate(potions[0], potionSpawnTransform.position, Quaternion.identity);
+                    potion.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);  
                     break;
                 case ("bc"):
                     Debug.Log("Dis is BC");
-                    ingredientTag = "";
-                    //should change what is spawned
-                    Instantiate(Potion, potionSpawnTransform.position, Quaternion.identity);
+                    combination = "";
+                    potionSpawnParticles.Play();
+                    GameObject potion1 = Instantiate(potions[1], potionSpawnTransform.position, Quaternion.identity);
+                    potion1.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);
                     break;
                 case ("ac"):
                     Debug.Log("Dis is AC");
-                    ingredientTag = "";
-                    //should change what is spawned
-                    Instantiate(Potion, potionSpawnTransform.position, Quaternion.identity);
+                    combination = "";
+                    potionSpawnParticles.Play();
+                    GameObject potion2 = Instantiate(potions[2], potionSpawnTransform.position, Quaternion.identity);
+                    potion2.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);
                     break;
             }
 
