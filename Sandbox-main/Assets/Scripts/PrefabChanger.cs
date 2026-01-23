@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class PrefabChanger : MonoBehaviour
 {
@@ -37,6 +39,10 @@ public class PrefabChanger : MonoBehaviour
                 }       
             }
             Destroy(other.gameObject);
+        }
+        else if(other.tag == "Potion")
+        {
+            StartCoroutine(Expand());
         }
     }
 
@@ -75,5 +81,14 @@ public class PrefabChanger : MonoBehaviour
     {
         prefabs[currentStage].SetActive(false);
         prefabs[initialStage].SetActive(true);  
+    }
+    IEnumerator Expand()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            transform.localScale +=
+              new Vector3(0.01f, 0.01f, 0.01f);
+            yield return null;
+        }
     }
 }
