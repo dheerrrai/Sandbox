@@ -67,5 +67,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7428365287941829689, guid: 9b9775df0c2eeb14ab85b2570bfc4c6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2794049240080152530}
   m_SourcePrefab: {fileID: 100100000, guid: 9b9775df0c2eeb14ab85b2570bfc4c6e, type: 3}
+--- !u!1 &8601462021471529072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7428365287941829689, guid: 9b9775df0c2eeb14ab85b2570bfc4c6e, type: 3}
+  m_PrefabInstance: {fileID: 1173278952115903561}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2794049240080152530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8601462021471529072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d31c36f067edce47b9b047090f52a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Potion
+  PotionData: {fileID: 11400000, guid: 1dd72442c8b8743459ba7b7393ec04dc, type: 2}

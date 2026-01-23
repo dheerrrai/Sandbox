@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.UIElements;
 
 public class PrefabChanger : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PrefabChanger : MonoBehaviour
     private void Start()
     {
         initialStage = Random.Range(0,prefabs.Count);
+        currentStage = initialStage;
         prefabs[initialStage].SetActive(true);
     }
 
@@ -42,7 +44,19 @@ public class PrefabChanger : MonoBehaviour
         }
         else if(other.tag == "Potion")
         {
-            StartCoroutine(Expand());
+            if (other.GetComponent<Potion>().PotionData.potionType == PotionData.PotionType.Scale)
+            {
+                StartCoroutine(Expand());
+            }
+            else if (other.GetComponent<Potion>().PotionData.potionType == PotionData.PotionType.Rotate)
+            {
+                StartCoroutine(Rotate());
+            }
+            else if (other.GetComponent<Potion>().PotionData.potionType == PotionData.PotionType.Explode)
+            {
+                StartCoroutine(Explode());
+            }
+            
         }
     }
 
@@ -86,8 +100,25 @@ public class PrefabChanger : MonoBehaviour
     {
         for (int i = 0; i < 50; i++)
         {
-            transform.localScale +=
+            transform.GetChild(currentStage).localScale +=
               new Vector3(0.01f, 0.01f, 0.01f);
+            yield return null;
+        }
+    }
+    IEnumerator Rotate()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            transform.GetChild(currentStage).rotation *=
+              new Quaternion(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1f);
+            yield return null;
+        }
+    }
+    IEnumerator Explode()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            transform.GetChild(currentStage).GetComponent<Rigidbody>().AddExplosionForce(20, transform.position, 10);
             yield return null;
         }
     }

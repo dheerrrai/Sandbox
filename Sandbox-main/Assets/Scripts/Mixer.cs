@@ -38,6 +38,8 @@ public class Mixer : MonoBehaviour
     [SerializeField] Transform potionSpawnTransform;
     [SerializeField] ParticleSystem potionSpawnParticles;
     [SerializeField] List<ParticleSystem> fruitUsedParticles = new List<ParticleSystem>();
+
+    [SerializeField] ParticleSystem explosionParticles;
     
     
     // UnityEvent that is invoked when another collider enters the trigger.
@@ -83,6 +85,8 @@ public class Mixer : MonoBehaviour
                 potionSpawnParticles.Play();
                 GameObject potion = Instantiate(potions[PotionID], potionSpawnTransform.position, Quaternion.identity);
                 potion.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);
+                //Resets the combination when you create a potion
+                combination = "";
                 Destroy(other.gameObject);
             }
 
@@ -124,6 +128,7 @@ public class Mixer : MonoBehaviour
                     Debug.Log("Explode");
                     PotionID = 0;
                     combination = "";
+                    explosionParticles.Play();
                     break;
             }
             LiquidMaterial.color = LiquidColours[PotionID];
