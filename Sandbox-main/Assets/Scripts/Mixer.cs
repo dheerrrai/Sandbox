@@ -59,6 +59,9 @@ public class Mixer : MonoBehaviour
     {
         // Checks if the script is enabled to perform detection, otherwise exit
         if (!enabled) return;
+
+        onTriggerEnterEvent?.Invoke();
+
         int randomEffect = UnityEngine.Random.Range(0, 2);
         fruitUsedParticles[randomEffect].Play();
 
@@ -84,7 +87,7 @@ public class Mixer : MonoBehaviour
             Array.Sort(charX);
             combination = new string(charX).ToLower();
         }
-        if (combination != "")
+        if (combination != "" && other.gameObject.GetComponent<CapsuleCollider>())
         {
             Vector3 spawnImpulse = new Vector3(UnityEngine.Random.Range(0.2f, 0.5f), UnityEngine.Random.Range(4.5f, 7.5f), UnityEngine.Random.Range(0.2f, 0.5f));
             switch (combination)
