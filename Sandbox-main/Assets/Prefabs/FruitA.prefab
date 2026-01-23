@@ -1156,6 +1156,7 @@ GameObject:
   - component: {fileID: 1793522003022435272}
   - component: {fileID: 4168105796271658025}
   - component: {fileID: 6599748750281207212}
+  - component: {fileID: 5600278031444948066}
   m_Layer: 0
   m_Name: FruitA
   m_TagString: a
@@ -1259,6 +1260,19 @@ MonoBehaviour:
   shouldPropagateDragEvents: 1
   shouldIgnoreRigidbodySettingFromDragger: 0
   removeFromParentAtAwake: 0
+--- !u!114 &5600278031444948066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6491488930619761860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e37310fbf1ccc74c8c9a64e416bdf7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Fruit
+  fruitData: {fileID: 11400000, guid: f8e699f25a37a6347ad84d157c101237, type: 2}
 --- !u!1 &6890154675404311593
 GameObject:
   m_ObjectHideFlags: 0

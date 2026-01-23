@@ -12,6 +12,7 @@ TagManager:
   - a
   - b
   - c
+  - Potion
   layers:
   - Default
   - TransparentFX

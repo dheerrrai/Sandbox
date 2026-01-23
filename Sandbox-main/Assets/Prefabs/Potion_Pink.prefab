@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Potion_Pink
       objectReference: {fileID: 0}
+    - target: {fileID: 7428365287941829689, guid: 9b9775df0c2eeb14ab85b2570bfc4c6e, type: 3}
+      propertyPath: m_TagString
+      value: Potion
+      objectReference: {fileID: 0}
     - target: {fileID: 7994955876127106361, guid: 9b9775df0c2eeb14ab85b2570bfc4c6e, type: 3}
       propertyPath: 'MaterialList.Array.data[3]'
       value: 
