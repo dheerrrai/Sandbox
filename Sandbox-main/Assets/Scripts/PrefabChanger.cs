@@ -10,7 +10,7 @@ public class PrefabChanger : MonoBehaviour
 
     private void Start()
     {
-        initialStage = currentStage;
+        initialStage = Random.Range(0,prefabs.Count);
         prefabs[initialStage].SetActive(true);
     }
 
@@ -42,9 +42,10 @@ public class PrefabChanger : MonoBehaviour
 
     void Age()
     {
-        if (currentStage < prefabs.Count - 1)
+        prefabs[currentStage].SetActive(false);
+        if (currentStage < prefabs.Count-1)
         {
-            prefabs[currentStage].SetActive(false);
+            
             currentStage++;
         }
         else
@@ -56,14 +57,15 @@ public class PrefabChanger : MonoBehaviour
 
     void Deage()
     {
-        if (currentStage > 0)
+        prefabs[currentStage].SetActive(false);
+        if (currentStage >0)
         {
-            prefabs[currentStage].SetActive(false);
+            
             currentStage--;
         }
         else
         {
-            prefabs[currentStage].SetActive(false);
+            
             currentStage = 0;
         }
         prefabs[currentStage].SetActive(true);

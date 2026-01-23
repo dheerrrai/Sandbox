@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,7 +31,9 @@ public class Mixer : MonoBehaviour
     public List<string> ingredients;
 
     [SerializeField] List<GameObject> potions = new List<GameObject>();
-    
+    [SerializeField] List<Color> LiquidColours = new List<Color>();
+    [SerializeField] int PotionID;
+    public Material LiquidMaterial;
     
     [SerializeField] Transform potionSpawnTransform;
     [SerializeField] ParticleSystem potionSpawnParticles;
@@ -61,11 +64,11 @@ public class Mixer : MonoBehaviour
         if (!enabled) return;
 
         onTriggerEnterEvent?.Invoke();
-
+        
         int randomEffect = UnityEngine.Random.Range(0, 2);
         fruitUsedParticles[randomEffect].Play();
+        Vector3 spawnImpulse = new Vector3(UnityEngine.Random.Range(0.2f, 0.5f), UnityEngine.Random.Range(4.5f, 7.5f), UnityEngine.Random.Range(0.2f, 0.5f));
 
-        
 
         //Some more advanced features you can enable if you need a layer or tag filter.
         //if ((layerMask.value & (1 << other.gameObject.layer)) == 0) return;
@@ -74,51 +77,61 @@ public class Mixer : MonoBehaviour
         // Invoke the onTriggerEnterEvent when a collider enters the trigger.
         if (other.tag == bottleTag)
         {
-            //Potion.MatChange(currentColour);
-        
+            
+            { 
+                
+                potionSpawnParticles.Play();
+                GameObject potion = Instantiate(potions[PotionID], potionSpawnTransform.position, Quaternion.identity);
+                potion.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);
+                Destroy(other.gameObject);
+            }
+
         }
 
-        else if (ingredients.Contains(other.tag))
+        else if (ingredients.Contains(other.tag) && !combination.Contains(other.tag))
         {
             combination += other.tag;
-
+            other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
             char[] charX = combination.ToCharArray();
 
             Array.Sort(charX);
             combination = new string(charX).ToLower();
         }
-        if (combination != "" && other.gameObject.GetComponent<CapsuleCollider>())
+        if (combination != "" && ingredients.Contains(other.tag))
         {
-            Vector3 spawnImpulse = new Vector3(UnityEngine.Random.Range(0.2f, 0.5f), UnityEngine.Random.Range(4.5f, 7.5f), UnityEngine.Random.Range(0.2f, 0.5f));
+            
             switch (combination)
             {
                 case ("ab"):
                     Debug.Log("dis is AB");
-                    combination = "";
-                    potionSpawnParticles.Play();
-                    GameObject potion = Instantiate(potions[0], potionSpawnTransform.position, Quaternion.identity);
-                    potion.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);  
+                    PotionID = 1;
+
+
                     break;
                 case ("bc"):
                     Debug.Log("Dis is BC");
-                    combination = "";
-                    potionSpawnParticles.Play();
-                    GameObject potion1 = Instantiate(potions[1], potionSpawnTransform.position, Quaternion.identity);
-                    potion1.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);
+                    PotionID =2;
+
+
                     break;
                 case ("ac"):
                     Debug.Log("Dis is AC");
+                    PotionID = 3;
+
+
+                    break;
+                case ("abc"):
+                    Debug.Log("Explode");
+                    PotionID = 0;
                     combination = "";
-                    potionSpawnParticles.Play();
-                    GameObject potion2 = Instantiate(potions[2], potionSpawnTransform.position, Quaternion.identity);
-                    potion2.GetComponent<Rigidbody>().AddForce(spawnImpulse, ForceMode.Impulse);
                     break;
             }
+            LiquidMaterial.color = LiquidColours[PotionID];
 
             //Disables the collider so it doesnt register it more than once if it bounces out then in again
             //Destroys it 5 seconds being in the couldron
-            other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            Destroy(other.gameObject, 3f);
+
+            Destroy(other.gameObject);
         }
         
 
