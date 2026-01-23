@@ -11,6 +11,7 @@ public class PrefabChanger : MonoBehaviour
     private void Start()
     {
         initialStage = Random.Range(0,prefabs.Count);
+        currentStage = initialStage;
         prefabs[initialStage].SetActive(true);
     }
 
