@@ -11957,6 +11957,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3210457143486274477, guid: 020a20bf5e8ce85448a15811e83ddc49, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: a58deced90801bc4eb77e56d38f745ee, type: 3}
+    - target: {fileID: 3446068464111018876, guid: 020a20bf5e8ce85448a15811e83ddc49, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: a58deced90801bc4eb77e56d38f745ee, type: 3}
     - target: {fileID: 3813109047775232875, guid: 020a20bf5e8ce85448a15811e83ddc49, type: 3}
       propertyPath: m_Name
       value: Crate
