@@ -8,6 +8,9 @@ public class FruitSpawner : MonoBehaviour
     public Transform SpawnPoint;
     public float RandRange=0.5f;
 
+    [SerializeField] ParticleSystem spawnParticles;
+    [SerializeField] AudioSource spawnSFX;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
 
@@ -20,6 +23,12 @@ public class FruitSpawner : MonoBehaviour
             Random.Range(-RandRange,RandRange)
             );
         GameObject obj= Instantiate(Spawns[id], point, Quaternion.identity);
+        obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(0.2f, 0.5f), Random.Range(1.5f, 3.0f), Random.Range(0.2f, 0.5f)), ForceMode.Impulse);
+
+        spawnParticles.transform.position = point;
+        spawnParticles.Play();
+        spawnSFX.Play();
+
         Debug.Log("Spawned item : " + id);
     }
 
