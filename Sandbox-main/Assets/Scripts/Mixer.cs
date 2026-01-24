@@ -58,7 +58,7 @@ public class Mixer : MonoBehaviour
     // 'other' represents the Collider that enters the trigger.
     private void Start()
     {
-       
+        LiquidMaterial.color = LiquidColours[0];
     }
     void OnTriggerEnter(Collider other)
     {
@@ -101,7 +101,7 @@ public class Mixer : MonoBehaviour
             Array.Sort(charX);
             combination = new string(charX).ToLower();
         }
-        if (combination != "" && ingredients.Contains(other.tag))
+        
         {
             
             switch (combination)
@@ -129,6 +129,9 @@ public class Mixer : MonoBehaviour
                     PotionID = 0;
                     combination = "";
                     explosionParticles.Play();
+                    break;
+                default:
+                    Debug.Log("smt wrong here muchacho");
                     break;
             }
             LiquidMaterial.color = LiquidColours[PotionID];

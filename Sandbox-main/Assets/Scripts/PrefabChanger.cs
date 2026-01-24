@@ -56,6 +56,7 @@ public class PrefabChanger : MonoBehaviour
             {
                 StartCoroutine(Explode());
             }
+            Destroy(other);
             
         }
     }
@@ -96,29 +97,35 @@ public class PrefabChanger : MonoBehaviour
         prefabs[currentStage].SetActive(false);
         prefabs[initialStage].SetActive(true);  
     }
+    
     IEnumerator Expand()
     {
+        Debug.Log("incredigassy");
         for (int i = 0; i < 50; i++)
         {
-            transform.GetChild(currentStage).localScale +=
+            transform.localScale +=
               new Vector3(0.01f, 0.01f, 0.01f);
             yield return null;
         }
     }
+    
     IEnumerator Rotate()
     {
+        Debug.Log("Rotate");
         for (int i = 0; i < 1000; i++)
         {
-            transform.GetChild(currentStage).rotation *=
-              new Quaternion(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1f);
+            transform.Rotate(
+              (Vector3.up * Random.Range(0f, 11f)));
             yield return null;
         }
     }
+   
     IEnumerator Explode()
     {
+        Debug.Log("EXPLODDE");
         for (int i = 0; i < 1000; i++)
         {
-            transform.GetChild(currentStage).GetComponent<Rigidbody>().AddExplosionForce(20, transform.position, 10);
+            transform.GetComponent<Rigidbody>().AddExplosionForce(20, transform.position, 10);
             yield return null;
         }
     }
